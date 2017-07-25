@@ -31,5 +31,26 @@ export type Scene = {
 };
 
 export const run = (shelgunta: Shelgunta) => {
+    switch (shelgunta.scenes.game.stage.stageNum) {
+        case 1:
+            return runStage1(shelgunta);
+
+        case 2:
+            return runStage2(shelgunta);
+
+        case 3:
+            return runStage3(shelgunta);
+    }
+};
+
+const runStage1 = (shelgunta: Shelgunta) => {
     return shelgunta;
 };
+
+const runStage2 = (shelgunta: Shelgunta) => {
+    return shelgunta;
+}
+
+const runStage3 = (shelgunta: Shelgunta) => {
+    return shelgunta;
+}
