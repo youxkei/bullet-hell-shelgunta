@@ -65,11 +65,105 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__keystate__ = __webpack_require__(1);
 
 
+const keyStateIterator = Object(__WEBPACK_IMPORTED_MODULE_0__keystate__["a" /* createKeyStateIteratorFromEvent */])();
+
+setInterval(() => console.log(keyStateIterator.next().value), 1000);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = createKeyStateIteratorFromEvent;
+const KEYS = {
+    SHOT: 1 << 0,
+    BOMB: 1 << 1,
+    SLOW: 1 << 2,
+
+    UP: 1 << 3,
+    DOWN: 1 << 4,
+    LEFT: 1 << 5,
+    RIGHT: 1 << 6
+};
+/* unused harmony export KEYS */
+
+
+function* createKeyStateIteratorFromEvent() {
+    let keyState = 0;
+
+    document.addEventListener("keydown", event => {
+        switch (event.code) {
+            case "KeyZ":
+                keyState |= KEYS.SHOT;
+                break;
+
+            case "KeyX":
+                keyState |= KEYS.BOMB;
+                break;
+
+            case "ShiftLeft":
+                keyState |= KEYS.SLOW;
+                break;
+
+            case "ArrowUp":
+                keyState |= KEYS.UP;
+                break;
+
+            case "ArrowDown":
+                keyState |= KEYS.DOWN;
+                break;
+
+            case "ArrowLeft":
+                keyState |= KEYS.LEFT;
+                break;
+
+            case "ArrowRight":
+                keyState |= KEYS.RIGHT;
+                break;
+        }
+    });
+
+    document.addEventListener("keyup", event => {
+        switch (event.code) {
+            case "KeyZ":
+                keyState &= ~KEYS.SHOT;
+                break;
+
+            case "KeyX":
+                keyState &= ~KEYS.BOMB;
+                break;
+
+            case "ShiftLeft":
+                keyState &= ~KEYS.SLOW;
+                break;
+
+            case "ArrowUp":
+                keyState &= ~KEYS.UP;
+                break;
+
+            case "ArrowDown":
+                keyState &= ~KEYS.DOWN;
+                break;
+
+            case "ArrowLeft":
+                keyState &= ~KEYS.LEFT;
+                break;
+
+            case "ArrowRight":
+                keyState &= ~KEYS.RIGHT;
+                break;
+        }
+    });
+
+    while (true) yield keyState;
+};
 
 /***/ })
 /******/ ]);

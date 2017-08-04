@@ -1,4 +1,5 @@
-import { Shelgunta } from "../shelgunta";
+// @flow
+import type { Shelgunta } from "../shelgunta";
 
 export type Scene = {
 };

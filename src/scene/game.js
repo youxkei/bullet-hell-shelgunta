@@ -1,4 +1,5 @@
-import { Shelgunta } from "../shelgunta";
+// @flow
+import type { Shelgunta } from "../shelgunta";
 
 export type Point = {
     x: number,
@@ -30,7 +31,7 @@ export type Scene = {
     },
 };
 
-export const run = (shelgunta: Shelgunta) => {
+export function run(shelgunta: Shelgunta): Shelgunta {
     switch (shelgunta.scenes.game.stage.stageNum) {
         case 1:
             return runStage1(shelgunta);
@@ -40,17 +41,21 @@ export const run = (shelgunta: Shelgunta) => {
 
         case 3:
             return runStage3(shelgunta);
+
+        default:
+            (shelgunta.scenes.game.stage.stageNum: empty);
+            throw "switch statement should be exhaustive";
     }
 };
 
-const runStage1 = (shelgunta: Shelgunta) => {
+function runStage1(shelgunta: Shelgunta): Shelgunta {
     return shelgunta;
 };
 
-const runStage2 = (shelgunta: Shelgunta) => {
+function runStage2(shelgunta: Shelgunta): Shelgunta {
     return shelgunta;
 }
 
-const runStage3 = (shelgunta: Shelgunta) => {
+function runStage3(shelgunta: Shelgunta): Shelgunta {
     return shelgunta;
 }

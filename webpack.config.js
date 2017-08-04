@@ -5,14 +5,14 @@ module.exports = {
     },
 
     resolve: {
-        extensions: [".ts", ".js"],
+        extensions: [".js"],
     },
 
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                loader: "awesome-typescript-loader",
+                test: /\.js$/,
+                loader: "babel-loader",
             },
         ],
     },
