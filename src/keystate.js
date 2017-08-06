@@ -82,4 +82,4 @@ export function *createKeyStateIteratorFromEvent(): KeyStateIterator {
     });
 
     while (true) yield keyState;
-};
+}

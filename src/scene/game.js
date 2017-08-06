@@ -1,4 +1,5 @@
 // @flow
+import type { Config } from "../config";
 import type { Shelgunta } from "../shelgunta";
 
 export type Point = {
@@ -6,14 +7,18 @@ export type Point = {
     y: number,
 };
 
-export type Bullet = Point & {
+export type Active = { // TODO should be named more properly
+    active: boolean, // TODO should be named more properly
+};
+
+export type Bullet = Point & Active & {
     radius: number,
     speed: number,
     direction: number,
 };
 
 export type Laser = Bullet & {
-    tailPoints: Point[],
+    tailPoints: (Point & Active)[],
 };
 
 export type Stage = {
@@ -31,6 +36,25 @@ export type Scene = {
     },
 };
 
+export function createInitialScene(config: Config): Scene {
+    return {
+        stage: {
+            stageNum: 1,
+            frameCount: 0,
+        },
+        bullets: {
+            normal: new Array(config.maxNum.bullets.normal).map(_ => ({
+                x: 0,
+                y: 0,
+                active: false,
+            })),
+        },
+        lasers: {
+            normal: [],
+        },
+    };
+}
+
 export function run(shelgunta: Shelgunta): Shelgunta {
     switch (shelgunta.scenes.game.stage.stageNum) {
         case 1:
@@ -46,11 +70,11 @@ export function run(shelgunta: Shelgunta): Shelgunta {
             (shelgunta.scenes.game.stage.stageNum: empty);
             throw "switch statement should be exhaustive";
     }
-};
+}
 
 function runStage1(shelgunta: Shelgunta): Shelgunta {
     return shelgunta;
-};
+}
 
 function runStage2(shelgunta: Shelgunta): Shelgunta {
     return shelgunta;

@@ -1,9 +1,16 @@
 // @flow
+import type { Config } from "../config";
 import type { Shelgunta } from "../shelgunta";
 
 export type Scene = {
 };
 
-export const run = (shelgunta: Shelgunta) => {
+export function createInitialScene(config: Config): Scene {
+    return {
+    };
+}
+
+export function run(shelgunta: Shelgunta) {
+    shelgunta.currentScene = "GAME";
     return shelgunta;
-};
+}
