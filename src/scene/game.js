@@ -1,85 +1,99 @@
 // @flow
-import type { Config } from "../config";
-import type { Shelgunta } from "../shelgunta";
+import type { UserConfig } from "../config"
+import type { Shelgunta } from "../shelgunta"
+import { SYSTEM_CONFIG } from "../config"
 
 export type Point = {
-    x: number,
-    y: number,
-};
+  x: number,
+  y: number,
+}
 
-export type Active = { // TODO should be named more properly
-    active: boolean, // TODO should be named more properly
-};
+// TODO 'Active' should be named more properly
+export type Active = {
+  active: boolean,
+}
 
-export type Bullet = Point & Active & {
+export type Bullet = Active &
+  Point & {
     radius: number,
     speed: number,
     direction: number,
-};
+  }
 
 export type Laser = Bullet & {
-    tailPoints: (Point & Active)[],
-};
+  tailPoints: Point[],
+}
 
 export type Stage = {
-    stageNum: 1 | 2 | 3,
-    frameCount: number,
-};
+  stageNumber: 1 | 2 | 3,
+  frameCount: number,
+}
 
 export type Scene = {
-    stage: Stage,
+  stage: Stage,
+  bullets: {
+    normal: Bullet[],
+  },
+  lasers: {
+    normal: Laser[],
+  },
+}
+
+export function createInitialScene(_userConfig: UserConfig): Scene {
+  return {
+    stage: {
+      stageNumber: 1,
+      frameCount: 0,
+    },
     bullets: {
-        normal: Bullet[],
+      normal: new Array(SYSTEM_CONFIG.scene.game.bullet.maxNumber).map(_ => ({
+        active: false,
+        x: 0,
+        y: 0,
+        radius: 0,
+        speed: 0,
+        direction: 0,
+      })),
     },
     lasers: {
-        normal: Laser[],
+      normal: new Array(SYSTEM_CONFIG.scene.game.laser.maxNumber).map(_ => ({
+        active: false,
+        x: 0,
+        y: 0,
+        radius: 0,
+        speed: 0,
+        direction: 0,
+        tailPoints: new Array(SYSTEM_CONFIG.scene.game.laser.maxTailPointsNumber).map(_ => ({ x: 0, y: 0 })),
+      })),
     },
-};
-
-export function createInitialScene(config: Config): Scene {
-    return {
-        stage: {
-            stageNum: 1,
-            frameCount: 0,
-        },
-        bullets: {
-            normal: new Array(config.maxNum.bullets.normal).map(_ => ({
-                x: 0,
-                y: 0,
-                active: false,
-            })),
-        },
-        lasers: {
-            normal: [],
-        },
-    };
+  }
 }
 
 export function run(shelgunta: Shelgunta): Shelgunta {
-    switch (shelgunta.scenes.game.stage.stageNum) {
-        case 1:
-            return runStage1(shelgunta);
+  switch (shelgunta.scenes.game.stage.stageNumber) {
+    case 1:
+      return runStage1(shelgunta)
 
-        case 2:
-            return runStage2(shelgunta);
+    case 2:
+      return runStage2(shelgunta)
 
-        case 3:
-            return runStage3(shelgunta);
+    case 3:
+      return runStage3(shelgunta)
 
-        default:
-            (shelgunta.scenes.game.stage.stageNum: empty);
-            throw "switch statement should be exhaustive";
-    }
+    default:
+      ;(shelgunta.scenes.game.stage.stageNumber: empty)
+      throw "switch statement should be exhaustive"
+  }
 }
 
 function runStage1(shelgunta: Shelgunta): Shelgunta {
-    return shelgunta;
+  return shelgunta
 }
 
 function runStage2(shelgunta: Shelgunta): Shelgunta {
-    return shelgunta;
+  return shelgunta
 }
 
 function runStage3(shelgunta: Shelgunta): Shelgunta {
-    return shelgunta;
+  return shelgunta
 }
