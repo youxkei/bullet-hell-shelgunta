@@ -1,16 +1,17 @@
 // @flow
-export type UserConfig = {
-  maxNum: {
-    bullets: {
-      normal: number,
-    },
-    lasers: {
-      normal: number,
-    },
-  },
-}
+export type UserConfig = {}
 
 export const SYSTEM_CONFIG = {
+  screen: {
+    width: 3840,
+    height: 4320,
+  },
+  gameArea: {
+    x: 480,
+    y: 480,
+    width: 2880,
+    hight: 3360,
+  },
   scene: {
     game: {
       bullet: {
@@ -18,7 +19,7 @@ export const SYSTEM_CONFIG = {
       },
       laser: {
         maxNumber: 16,
-        maxTailPointsNumber: 32,
+        tailLength: 8,
       },
     },
   },
