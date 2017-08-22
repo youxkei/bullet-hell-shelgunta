@@ -1,49 +1,13 @@
 // @flow
-import type { UserConfig } from "../../config"
-import type { State } from "../../state"
-import { SYSTEM_CONFIG } from "../../config"
+import type { UserConfig } from "src/config"
+import type { State } from "src/state"
+import type { SceneState } from "src/logic/scene/game/scenestate"
+import { SYSTEM_CONFIG } from "src/config"
+import { logic as stage1Logic } from "src/logic/scene/game/stage/1.js"
+import { logic as stage2Logic } from "src/logic/scene/game/stage/2.js"
+import { logic as stage3Logic } from "src/logic/scene/game/stage/3.js"
 
-import { logic as stage1Logic } from "./game/stage/1.js"
-import { logic as stage2Logic } from "./game/stage/2.js"
-import { logic as stage3Logic } from "./game/stage/3.js"
-
-export type Point = {
-  x: number,
-  y: number,
-}
-
-// TODO 'Active' should be named more properly
-export type Active = {
-  active: boolean,
-}
-
-export type Bullet = Active &
-  Point & {
-    radius: number,
-    speed: number,
-    direction: number,
-  }
-
-export type Laser = Bullet & {
-  tailPoints: Point[],
-}
-
-export type Stage = {
-  stageNumber: 1 | 2 | 3,
-  frameCount: number,
-}
-
-export type SceneState = {
-  stage: Stage,
-  bullets: {
-    normal: Bullet[],
-  },
-  lasers: {
-    normal: Laser[],
-  },
-}
-
-export function createInitialSceneState(_userConfig: UserConfig): SceneState {
+export function createInitialSceneState(_: UserConfig): SceneState {
   return {
     stage: {
       stageNumber: 1,

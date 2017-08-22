@@ -15,6 +15,9 @@
     "flowtype",
     "import",
   ],
+  settings: {
+    import/resolver: "webpack",
+  },
   extends: [
     "eslint:recommended",
     "plugin:flowtype/recommended",

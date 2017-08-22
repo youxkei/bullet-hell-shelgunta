@@ -1,10 +1,10 @@
 // @flow
-import type { State } from "../state"
+import type { State } from "src/state"
 
-import { logic as titleSceneLogic } from "./scene/title"
-import { logic as gameSceneLogic } from "./scene/game"
-import { logic as clearSceneLogic } from "./scene/clear"
-import { logic as gameOverSceneLogic } from "./scene/gameover"
+import { logic as titleSceneLogic } from "src/logic/scene/title"
+import { logic as gameSceneLogic } from "src/logic/scene/game/logic"
+import { logic as clearSceneLogic } from "src/logic/scene/clear"
+import { logic as gameOverSceneLogic } from "src/logic/scene/gameover"
 
 export function logic(state: State): State {
   switch (state.currentScene) {

@@ -1,5 +1,5 @@
 // @flow
-import { createKeyStateIteratorFromEvent } from "./keystate"
+import { createKeyStateIteratorFromEvent } from "src/keystate"
 
 const keyStateIterator = createKeyStateIteratorFromEvent()
 

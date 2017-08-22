@@ -1,6 +1,6 @@
 // @flow
-import type { UserConfig } from "../../config"
-import type { State } from "../../state"
+import type { UserConfig } from "src/config"
+import type { State } from "src/state"
 
 export type SceneState = {}
 
