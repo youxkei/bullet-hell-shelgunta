@@ -5,7 +5,7 @@ import type { SceneState as GameSceneState } from "src/logic/scene/game/scenesta
 import type { SceneState as ClearSceneState } from "src/logic/scene/clear"
 import type { SceneState as GameOverSceneState } from "src/logic/scene/gameover"
 import { createInitialSceneState as createInitialTitleSceneState } from "src/logic/scene/title"
-import { createInitialSceneState as createInitialGameSceneState } from "src/logic/scene/game/logic"
+import { createInitialSceneState as createInitialGameSceneState } from "src/logic/scene/game/scenestate"
 import { createInitialSceneState as createInitialClearSceneState } from "src/logic/scene/clear"
 import { createInitialSceneState as createInitialGameOverSceneState } from "src/logic/scene/gameover"
 

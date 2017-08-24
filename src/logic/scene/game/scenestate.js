@@ -1,4 +1,7 @@
 // @flow
+import type { UserConfig } from "src/config"
+import { SYSTEM_CONFIG } from "src/config"
+
 export type Point = {
   x: number,
   y: number,
@@ -11,9 +14,8 @@ export type Active = {
 
 export type Bullet = Active &
   Point & {
-    radius: number,
-    speed: number,
     direction: number,
+    speed: number,
   }
 
 export type Laser = Bullet & {
@@ -25,12 +27,55 @@ export type Stage = {
   frameCount: number,
 }
 
+type Pool<T> = {
+  pool: T[],
+  nextIndex: number,
+}
+
 export type SceneState = {
   stage: Stage,
-  bullets: {
-    normal: Bullet[],
+  pools: {
+    bullet: {
+      normal: Pool<Bullet>,
+    },
+    laser: {
+      normal: Pool<Laser>,
+    },
   },
-  lasers: {
-    normal: Laser[],
-  },
+}
+
+export function createInitialSceneState(_: UserConfig): SceneState {
+  return {
+    stage: {
+      stageNumber: 1,
+      frameCount: 0,
+    },
+    pools: {
+      bullet: {
+        normal: {
+          pool: new Array(SYSTEM_CONFIG.scene.game.bullet.normal.poolSize).map(_ => ({
+            active: false,
+            x: 0,
+            y: 0,
+            direction: 0,
+            speed: 0,
+          })),
+          nextIndex: 0,
+        },
+      },
+      laser: {
+        normal: {
+          pool: new Array(SYSTEM_CONFIG.scene.game.laser.normal.poolSize).map(_ => ({
+            active: false,
+            x: 0,
+            y: 0,
+            direction: 0,
+            speed: 0,
+            tailPoints: new Array(SYSTEM_CONFIG.scene.game.laser.normal.tailLength).map(_ => ({ x: 0, y: 0 })),
+          })),
+          nextIndex: 0,
+        },
+      },
+    },
+  }
 }

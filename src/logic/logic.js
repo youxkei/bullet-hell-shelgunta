@@ -1,6 +1,5 @@
 // @flow
 import type { State } from "src/state"
-
 import { logic as titleSceneLogic } from "src/logic/scene/title"
 import { logic as gameSceneLogic } from "src/logic/scene/game/logic"
 import { logic as clearSceneLogic } from "src/logic/scene/clear"

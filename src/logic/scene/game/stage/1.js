@@ -1,11 +1,14 @@
 // @flow
 import type { State } from "src/state"
-import { shootNormalLaser } from "src/logic/scene/game/bullet"
+import { shootNormalBullet } from "src/logic/scene/game/shoot"
 
 export function logic(state: State): State {
-  if (state.scenes.game.stage.frameCount % 180 === 0) {
+  const stage = state.scenes.game.stage
+
+  if (stage.frameCount % 180 === 0) {
+    shootNormalBullet(state, true, 0, 0, 0, 3)
   }
 
-  state.scenes.game.stage.frameCount++
+  stage.frameCount++
   return state
 }

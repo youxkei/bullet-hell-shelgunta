@@ -15,11 +15,15 @@ export const SYSTEM_CONFIG = {
   scene: {
     game: {
       bullet: {
-        maxNumber: 1024,
+        normal: {
+          poolSize: 1024,
+        },
       },
       laser: {
-        maxNumber: 16,
-        tailLength: 8,
+        normal: {
+          poolSize: 16,
+          tailLength: 8,
+        },
       },
     },
   },
