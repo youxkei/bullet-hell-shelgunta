@@ -1,4 +1,5 @@
 // @flow
 export interface Renderer {
-  addViewToDom($DOMElement): void,
+  addViewToNode(container: Node): void,
+  setMainLoop(mainLoop: () => void): void,
 }
