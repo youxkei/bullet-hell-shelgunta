@@ -14,7 +14,7 @@ export type KeyState = number
 
 export type KeyStateIterator = Iterator<KeyState>
 
-export function* createKeyStateIteratorFromEvent(): KeyStateIterator {
+export function* createKeyStateIteratorFromDOMEvent(): KeyStateIterator {
   let keyState = 0
 
   document.addEventListener("keydown", (event: KeyboardEvent) => {

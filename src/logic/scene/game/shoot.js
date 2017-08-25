@@ -10,7 +10,7 @@ export function shootNormalBullet(
   direction: number,
   speed: number
 ): State {
-  const pool = state.scenes.game.pools.bullet.normal
+  const pool = state.scene.game.pool.bullet.normal
 
   pool.pool[pool.nextIndex].active = active
   pool.pool[pool.nextIndex].x = x

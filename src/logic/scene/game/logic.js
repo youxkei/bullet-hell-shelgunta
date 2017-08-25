@@ -5,7 +5,7 @@ import { logic as stage2Logic } from "src/logic/scene/game/stage/2.js"
 import { logic as stage3Logic } from "src/logic/scene/game/stage/3.js"
 
 export function logic(state: State): State {
-  switch (state.scenes.game.stage.stageNumber) {
+  switch (state.scene.game.stage.stageNumber) {
     case 1:
       return stage1Logic(state)
 
@@ -16,7 +16,7 @@ export function logic(state: State): State {
       return stage3Logic(state)
 
     default:
-      ;(state.scenes.game.stage.stageNumber: empty)
+      ;(state.scene.game.stage.stageNumber: empty)
       throw "switch statement should be exhaustive"
   }
 }

@@ -1,6 +1,6 @@
 // @flow
-import { createKeyStateIteratorFromEvent } from "src/keystate"
+import { createKeyStateIteratorFromDOMEvent } from "src/keystate"
 
-const keyStateIterator = createKeyStateIteratorFromEvent()
+const keyStateIterator = createKeyStateIteratorFromDOMEvent()
 
 setInterval(() => console.log(keyStateIterator.next().value), 1000)

@@ -19,7 +19,7 @@ export type Bullet = Active &
   }
 
 export type Laser = Bullet & {
-  tailPoints: Point[],
+  +tailPoints: Point[],
 }
 
 export type Stage = {
@@ -28,29 +28,29 @@ export type Stage = {
 }
 
 type Pool<T> = {
-  pool: T[],
+  +pool: T[],
   nextIndex: number,
 }
 
-export type SceneState = {
-  stage: Stage,
-  pools: {
-    bullet: {
-      normal: Pool<Bullet>,
+export type State = {
+  +stage: Stage,
+  +pool: {
+    +bullet: {
+      +normal: Pool<Bullet>,
     },
-    laser: {
-      normal: Pool<Laser>,
+    +laser: {
+      +normal: Pool<Laser>,
     },
   },
 }
 
-export function createInitialSceneState(_: UserConfig): SceneState {
+export function createInitialState(_: UserConfig): State {
   return {
     stage: {
       stageNumber: 1,
       frameCount: 0,
     },
-    pools: {
+    pool: {
       bullet: {
         normal: {
           pool: new Array(SYSTEM_CONFIG.scene.game.bullet.normal.poolSize).map(_ => ({
