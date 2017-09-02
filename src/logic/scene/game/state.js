@@ -12,14 +12,15 @@ export type Active = {
   active: boolean,
 }
 
-export type Bullet = Active &
-  Point & {
-    direction: number,
-    speed: number,
-  }
+type BulletWithoutPoint = Active & {
+  direction: number,
+  speed: number,
+}
 
-export type Laser = Bullet & {
-  +tailPoints: Point[],
+export type Bullet = BulletWithoutPoint & Point
+
+export type Laser = BulletWithoutPoint & {
+  +points: Point[],
 }
 
 export type Stage = {
@@ -53,7 +54,7 @@ export function createInitialState(_: UserConfig): State {
     pool: {
       bullet: {
         normal: {
-          pool: new Array(SYSTEM_CONFIG.scene.game.bullet.normal.poolSize).map(_ => ({
+          pool: Array(SYSTEM_CONFIG.scene.game.bullet.normal.poolSize).fill().map(() => ({
             active: false,
             x: 0,
             y: 0,
@@ -65,13 +66,11 @@ export function createInitialState(_: UserConfig): State {
       },
       laser: {
         normal: {
-          pool: new Array(SYSTEM_CONFIG.scene.game.laser.normal.poolSize).map(_ => ({
+          pool: Array(SYSTEM_CONFIG.scene.game.laser.normal.poolSize).fill().map(() => ({
             active: false,
-            x: 0,
-            y: 0,
             direction: 0,
             speed: 0,
-            tailPoints: new Array(SYSTEM_CONFIG.scene.game.laser.normal.tailLength).map(_ => ({ x: 0, y: 0 })),
+            points: Array(SYSTEM_CONFIG.scene.game.laser.normal.length).fill().map(() => ({ x: 0, y: 0 })),
           })),
           nextIndex: 0,
         },

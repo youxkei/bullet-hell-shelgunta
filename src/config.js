@@ -16,13 +16,15 @@ export const SYSTEM_CONFIG = {
     game: {
       bullet: {
         normal: {
+          radius: 16,
           poolSize: 1024,
         },
       },
       laser: {
         normal: {
+          radius: 16,
           poolSize: 16,
-          tailLength: 8,
+          length: 8,
         },
       },
     },

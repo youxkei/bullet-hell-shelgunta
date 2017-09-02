@@ -23,4 +23,6 @@ module.exports = {
       },
     ],
   },
+
+  devtool: "eval",
 }
