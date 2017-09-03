@@ -48,8 +48,13 @@ export class Bullet {
 
   sync() {
     this._frontSprite.visible = this._backSprite.visible = this._bulletState.active
+
+    if (!this._bulletState.active) {
+      return
+    }
+
     this._frontSprite.x = this._backSprite.x = this._bulletState.x
     this._frontSprite.y = this._backSprite.y = this._bulletState.y
-    this._frontSprite.rotation = this._backSprite.rotation = this._bulletState.direction
+    this._frontSprite.rotation = this._backSprite.rotation = this._bulletState.angle
   }
 }

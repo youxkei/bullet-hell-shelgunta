@@ -7,8 +7,24 @@ import { logic as stage3Logic } from "src/logic/scene/game/stage/3.js"
 function move(state: State): State {
   for (const bullet of state.scene.game.pool.bullet.normal.pool) {
     if (bullet.active) {
-      bullet.x += Math.floor(Math.cos(bullet.direction) * bullet.speed)
-      bullet.y += Math.floor(Math.sin(bullet.direction) * bullet.speed)
+      bullet.x += Math.cos(bullet.angle) * bullet.speed
+      bullet.y += Math.sin(bullet.angle) * bullet.speed
+
+      bullet.angle += bullet.angularVelocity
+    }
+  }
+
+  for (const laser of state.scene.game.pool.laser.normal.pool) {
+    if (laser.active) {
+      for (let i = laser.points.length - 1; i >= 1; --i) {
+        laser.points[i].x = laser.points[i - 1].x
+        laser.points[i].y = laser.points[i - 1].y
+      }
+
+      laser.points[0].x += Math.cos(laser.angle) * laser.speed
+      laser.points[0].y += Math.sin(laser.angle) * laser.speed
+
+      laser.angle += laser.angularVelocity
     }
   }
 

@@ -1,5 +1,5 @@
 // @flow
-import { Application, Texture, Graphics, Container } from "pixi.js"
+import { Application, Texture, Graphics, Container, ticker } from "pixi.js"
 
 import type { UserConfig } from "src/config"
 import type { State } from "src/state"
@@ -11,50 +11,48 @@ import { Laser } from "src/renderer/pixi/laser"
 type Textures = {
   +circle: {
     +red: Texture,
-    +black: Texture,
+    +white: Texture,
   },
   +rect: {
     +red: Texture,
-    +black: Texture,
+    +white: Texture,
   },
 }
-
-const SCALING_FACTOR = 0.25
 
 function createTextures(): Textures {
   const graphics = new Graphics()
 
   graphics.beginFill(0xff0000, 1)
-  graphics.drawCircle(0, 0, 128)
+  graphics.drawCircle(0, 0, 64)
   graphics.endFill()
   const redCircleTexture = graphics.generateCanvasTexture()
 
   graphics.clear()
-  graphics.beginFill(0x000000, 1)
-  graphics.drawCircle(0, 0, 128)
+  graphics.beginFill(0xffffff, 1)
+  graphics.drawCircle(0, 0, 64)
   graphics.endFill()
-  const blackCircleTexture = graphics.generateCanvasTexture()
+  const whiteCircleTexture = graphics.generateCanvasTexture()
 
   graphics.clear()
   graphics.beginFill(0xff0000, 1)
-  graphics.drawRect(-128, -128, 128, 128)
+  graphics.drawRect(-64, -64, 64, 64)
   graphics.endFill()
   const redRectTexture = graphics.generateCanvasTexture()
 
   graphics.clear()
-  graphics.beginFill(0x000000, 1)
-  graphics.drawRect(-128, -128, 128, 128)
+  graphics.beginFill(0xffffff, 1)
+  graphics.drawRect(-64, -64, 64, 64)
   graphics.endFill()
-  const blackRectTexture = graphics.generateCanvasTexture()
+  const whiteRectTexture = graphics.generateCanvasTexture()
 
   return {
     circle: {
       red: redCircleTexture,
-      black: blackCircleTexture,
+      white: whiteCircleTexture,
     },
     rect: {
       red: redRectTexture,
-      black: blackRectTexture,
+      white: whiteRectTexture,
     },
   }
 }
@@ -72,17 +70,13 @@ export class PIXIRenderer extends Renderer {
   constructor(state: State, userConfig: UserConfig) {
     super(state, userConfig)
 
-    this._application = new Application(
-      SYSTEM_CONFIG.screen.width * SCALING_FACTOR,
-      SYSTEM_CONFIG.screen.height * SCALING_FACTOR,
-      {
-        autoStart: false,
-        antialias: true,
-      }
-    )
-
-    this._application.stage.scale.x = SCALING_FACTOR
-    this._application.stage.scale.y = SCALING_FACTOR
+    ticker.shared.autoStart = false
+    ticker.shared.stop()
+    this._application = new Application(SYSTEM_CONFIG.screen.width, SYSTEM_CONFIG.screen.height, {
+      autoStart: false,
+      antialias: true,
+    })
+    this._application.ticker.stop()
 
     this._textures = createTextures()
 
@@ -97,12 +91,12 @@ export class PIXIRenderer extends Renderer {
         bulletState =>
           new Bullet({
             bulletState,
-            frontWidth: 96,
-            frontHeight: 96,
-            frontTexture: this._textures.circle.black,
+            frontWidth: 18,
+            frontHeight: 18,
+            frontTexture: this._textures.circle.white,
             frontContainer: this._frontContainer,
-            backWidth: 128,
-            backHeight: 128,
+            backWidth: 24,
+            backHeight: 24,
             backTexture: this._textures.circle.red,
             backContainer: this._backContainer,
           })
@@ -114,13 +108,13 @@ export class PIXIRenderer extends Renderer {
         laserState =>
           new Laser({
             laserState,
-            frontWidth: 96,
-            frontHeight: 96,
-            frontNodeTexture: this._textures.circle.black,
-            frontEdgeTexture: this._textures.rect.black,
+            frontWidth: 18,
+            frontHeight: 18,
+            frontNodeTexture: this._textures.circle.white,
+            frontEdgeTexture: this._textures.rect.white,
             frontContainer: this._frontContainer,
-            backWidth: 128,
-            backHeight: 128,
+            backWidth: 24,
+            backHeight: 24,
             backNodeTexture: this._textures.circle.red,
             backEdgeTexture: this._textures.rect.red,
             backContainer: this._backContainer,
@@ -139,7 +133,7 @@ export class PIXIRenderer extends Renderer {
       bullet.sync()
     }
 
-    for (const laser of this._bullets.normal) {
+    for (const laser of this._lasers.normal) {
       laser.sync()
     }
   }

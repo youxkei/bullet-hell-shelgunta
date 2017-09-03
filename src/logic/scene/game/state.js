@@ -13,8 +13,9 @@ export type Active = {
 }
 
 type BulletWithoutPoint = Active & {
-  direction: number,
+  angle: number,
   speed: number,
+  angularVelocity: number,
 }
 
 export type Bullet = BulletWithoutPoint & Point
@@ -58,8 +59,9 @@ export function createInitialState(_: UserConfig): State {
             active: false,
             x: 0,
             y: 0,
-            direction: 0,
+            angle: 0,
             speed: 0,
+            angularVelocity: 0,
           })),
           nextIndex: 0,
         },
@@ -68,8 +70,9 @@ export function createInitialState(_: UserConfig): State {
         normal: {
           pool: Array(SYSTEM_CONFIG.scene.game.laser.normal.poolSize).fill().map(() => ({
             active: false,
-            direction: 0,
+            angle: 0,
             speed: 0,
+            angularVelocity: 0,
             points: Array(SYSTEM_CONFIG.scene.game.laser.normal.length).fill().map(() => ({ x: 0, y: 0 })),
           })),
           nextIndex: 0,

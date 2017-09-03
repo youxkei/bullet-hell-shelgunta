@@ -3,28 +3,28 @@ export type UserConfig = {}
 
 export const SYSTEM_CONFIG = {
   screen: {
-    width: 3840,
-    height: 4320,
+    width: 960,
+    height: 1080,
   },
   gameArea: {
-    x: 480,
-    y: 480,
-    width: 2880,
-    hight: 3360,
+    x: 120,
+    y: 120,
+    width: 720,
+    hight: 840,
   },
   scene: {
     game: {
       bullet: {
         normal: {
           radius: 16,
-          poolSize: 1024,
+          poolSize: 2048,
         },
       },
       laser: {
         normal: {
           radius: 16,
-          poolSize: 16,
-          length: 8,
+          poolSize: 32,
+          length: 32,
         },
       },
     },
