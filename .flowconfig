@@ -11,3 +11,4 @@ all=error
 module.name_mapper='src' -> '<PROJECT_ROOT>/src'
 experimental.const_params=true
 munge_underscores=true
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe

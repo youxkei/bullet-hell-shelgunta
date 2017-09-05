@@ -1,7 +1,7 @@
 // @flow
 import { PIXIRenderer } from "src/renderer/pixi"
 import { createInitialState } from "src/state"
-import { logic } from "src/logic/logic"
+import { logic } from "src/logic"
 
 const userConfig = {}
 
