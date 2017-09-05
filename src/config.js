@@ -23,10 +23,18 @@ export const SYSTEM_CONFIG = {
       laser: {
         normal: {
           radius: 16,
-          poolSize: 32,
-          length: 32,
+          poolSize: 128,
+          length: 96,
         },
       },
     },
   },
 }
+
+function getObjectKeys<K, V, O: { [key: K]: V }>(object: O): K {
+  // $FlowFixMe
+  return Object.keys(object)
+}
+
+export const BULLET_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.bullet)
+export const LASER_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.laser)

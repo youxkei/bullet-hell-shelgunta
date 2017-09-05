@@ -137,7 +137,7 @@ export class Laser {
     const halfBackWidth = this._backWidth / 2
 
     for (let i = 0; i < numPoints; ++i) {
-      const segmentAngle = i === 0 ? this._laserState.angle : calcSegmentAngle(points[i - 1], points[i])
+      const segmentAngle = i === 0 ? calcSegmentAngle(points[0], points[1]) : calcSegmentAngle(points[i - 1], points[i])
 
       this._frontVertices[i * 4 + 0] = points[i].x + halfFrontWidth * Math.cos(segmentAngle - HALF_PI)
       this._frontVertices[i * 4 + 1] = points[i].y + halfFrontWidth * Math.sin(segmentAngle - HALF_PI)

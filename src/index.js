@@ -21,11 +21,10 @@ function main() {
 
   ++count
 
-  if (count === 60) {
+  if (count % 60 === 0) {
     const nowTime = performance.now()
     console.log(Math.floor(60 / (nowTime - previousTime) * 100000) / 100)
     previousTime = nowTime
-    count = 0
   }
 
   requestAnimationFrame(main)

@@ -3,7 +3,7 @@ import { Application, Texture, Graphics, Container, ticker } from "pixi.js"
 
 import type { UserConfig } from "src/config"
 import type { State } from "src/state"
-import { SYSTEM_CONFIG } from "src/config"
+import { SYSTEM_CONFIG, BULLET_KINDS, LASER_KINDS } from "src/config"
 import { Renderer } from "src/renderer/"
 import { Bullet } from "src/renderer/pixi/bullet"
 import { Laser } from "src/renderer/pixi/laser"
@@ -113,13 +113,13 @@ export class PIXIRenderer extends Renderer {
         laserState =>
           new Laser({
             laserState,
-            frontWidth: 18,
-            frontHeight: 18,
+            frontWidth: 6,
+            frontHeight: 6,
             frontNodeTexture: this._textures.laser[laserKind].nodeFront,
             frontEdgeTexture: this._textures.laser[laserKind].edgeFront,
             frontContainer: this._frontContainer,
-            backWidth: 24,
-            backHeight: 24,
+            backWidth: 12,
+            backHeight: 12,
             backNodeTexture: this._textures.laser[laserKind].nodeBack,
             backEdgeTexture: this._textures.laser[laserKind].edgeBack,
             backContainer: this._backContainer,
@@ -134,12 +134,16 @@ export class PIXIRenderer extends Renderer {
 
   // TODO 'sync' should be named more properly
   _sync() {
-    for (const bullet of this._bullets.normal) {
-      bullet.sync()
+    for (const bulletKind of BULLET_KINDS) {
+      for (const bullet of this._bullets[bulletKind]) {
+        bullet.sync()
+      }
     }
 
-    for (const laser of this._lasers.normal) {
-      laser.sync()
+    for (const laserKind of LASER_KINDS) {
+      for (const laser of this._lasers[laserKind]) {
+        laser.sync()
+      }
     }
   }
 

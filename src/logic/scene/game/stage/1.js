@@ -4,7 +4,7 @@ import { SYSTEM_CONFIG } from "src/config"
 import { shootNormalBullet, shootNormalLaser } from "src/logic/scene/game/shoot"
 
 const NUM_BULLET_WAYS = 128
-const NUM_LASER_WAYS = 8
+const NUM_LASER_WAYS = 32
 
 export function logic(state: State): State {
   const stage = state.scene.game.stage
@@ -24,7 +24,7 @@ export function logic(state: State): State {
     }
   }
 
-  if (stage.frameCount % 180 === 0) {
+  if (stage.frameCount % 200 === 0) {
     const baseAngle = Math.PI * 2 * Math.random()
 
     for (let i = 0; i < NUM_LASER_WAYS; ++i) {
@@ -33,8 +33,8 @@ export function logic(state: State): State {
         SYSTEM_CONFIG.screen.width / 2,
         SYSTEM_CONFIG.screen.height / 4,
         baseAngle + Math.PI * 2 / NUM_LASER_WAYS * i,
-        12,
-        0.01
+        4,
+        0.007
       )
 
       shootNormalLaser(
@@ -42,8 +42,8 @@ export function logic(state: State): State {
         SYSTEM_CONFIG.screen.width / 2,
         SYSTEM_CONFIG.screen.height / 4,
         baseAngle + Math.PI * 2 / NUM_LASER_WAYS * i,
-        12,
-        -0.01
+        4,
+        -0.007
       )
     }
   }
