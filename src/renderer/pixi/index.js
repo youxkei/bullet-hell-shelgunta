@@ -1,24 +1,34 @@
 // @flow
 import { Application, Texture, Graphics, Container, ticker } from "pixi.js"
 
-import type { UserConfig } from "src/config"
+import type { UserConfig, BulletKindTo, LaserKindTo } from "src/config"
 import type { State } from "src/state"
-import { SYSTEM_CONFIG, BULLET_KINDS, LASER_KINDS } from "src/config"
+import { SYSTEM_CONFIG, BULLET_KINDS, LASER_KINDS, bulletKindTo, laserKindTo } from "src/config"
 import { Renderer } from "src/renderer/"
 import { Bullet } from "src/renderer/pixi/bullet"
 import { Laser } from "src/renderer/pixi/laser"
 
-type Textures = {
-  +bullet: $ObjMap<typeof SYSTEM_CONFIG.scene.game.bullet, <T>(T) => { front: Texture, back: Texture }>,
-  +laser: $ObjMap<typeof SYSTEM_CONFIG.scene.game.laser, <T>(T) => { nodeFront: Texture, nodeBack: Texture, edgeFront: Texture, edgeBack: Texture }>
-}
+type BulletConfig = BulletKindTo<{
+  frontWidth: number,
+  frontHeight: number,
+  backWidth: number,
+  backHeight: number,
+  frontTexture: Texture,
+  backTexture: Texture,
+}>
 
-function mapObject<K, V, O: { [key: K]: V }, R>(object: O, mapper: (K) => R): $ObjMap<O, <T>(T) => R> {
-  // $FlowFixMe
-  return Object.keys(object).reduce((accumulated, key) => Object.assign(accumulated, { [key]: mapper(key) }), {})
-}
+type LaserConfig = LaserKindTo<{
+  frontWidth: number,
+  frontHeight: number,
+  backWidth: number,
+  backHeight: number,
+  nodeFrontTexture: Texture,
+  nodeBackTexture: Texture,
+  edgeFrontTexture: Texture,
+  edgeBackTexture: Texture,
+}>
 
-function createTextures(): Textures {
+function createProjectileConfig(): { bullet: BulletConfig, laser: LaserConfig } {
   const graphics = new Graphics()
 
   graphics.beginFill(0xff0000, 1)
@@ -47,16 +57,24 @@ function createTextures(): Textures {
   return {
     bullet: {
       normal: {
-        front: whiteCircleTexture,
-        back: redCircleTexture,
+        frontWidth: 18,
+        frontHeight: 18,
+        backWidth: 24,
+        backHeight: 24,
+        frontTexture: whiteCircleTexture,
+        backTexture: redCircleTexture,
       },
     },
     laser: {
       normal: {
-        nodeFront: whiteCircleTexture,
-        nodeBack: redCircleTexture,
-        edgeFront: whiteRectTexture,
-        edgeBack: redRectTexture,
+        frontWidth: 6,
+        frontHeight: 6,
+        backWidth: 12,
+        backHeight: 12,
+        nodeFrontTexture: whiteCircleTexture,
+        nodeBackTexture: redCircleTexture,
+        edgeFrontTexture: whiteRectTexture,
+        edgeBackTexture: redRectTexture,
       },
     },
   }
@@ -64,13 +82,9 @@ function createTextures(): Textures {
 
 export class PIXIRenderer extends Renderer {
   _application: Application
-  _textures: Textures
 
-  _frontContainer: Container
-  _backContainer: Container
-
-  _bullets: $ObjMap<typeof SYSTEM_CONFIG.scene.game.bullet, <T>(T) => Bullet[]>
-  _lasers: $ObjMap<typeof SYSTEM_CONFIG.scene.game.laser, <T>(T) => Laser[]>
+  _bullets: BulletKindTo<$ReadOnlyArray<Bullet>>
+  _lasers: LaserKindTo<$ReadOnlyArray<Laser>>
 
   constructor(state: State, userConfig: UserConfig) {
     super(state, userConfig)
@@ -83,46 +97,34 @@ export class PIXIRenderer extends Renderer {
     })
     this._application.ticker.stop()
 
-    this._textures = createTextures()
+    const projectileConfig = createProjectileConfig()
 
-    this._frontContainer = new Container()
-    this._backContainer = new Container()
+    const frontContainer = new Container()
+    const backContainer = new Container()
 
-    this._application.stage.addChild(this._backContainer)
-    this._application.stage.addChild(this._frontContainer)
+    this._application.stage.addChild(backContainer)
+    this._application.stage.addChild(frontContainer)
 
-    this._bullets = mapObject(SYSTEM_CONFIG.scene.game.bullet, bulletKind =>
+    this._bullets = bulletKindTo(bulletKind =>
       state.scene.game.pool.bullet[bulletKind].pool.map(
         bulletState =>
           new Bullet({
+            ...projectileConfig.bullet[bulletKind],
             bulletState,
-            frontWidth: 18,
-            frontHeight: 18,
-            frontTexture: this._textures.bullet[bulletKind].front,
-            frontContainer: this._frontContainer,
-            backWidth: 24,
-            backHeight: 24,
-            backTexture: this._textures.bullet[bulletKind].back,
-            backContainer: this._backContainer,
+            frontContainer: frontContainer,
+            backContainer: backContainer,
           })
       )
     )
 
-    this._lasers = mapObject(SYSTEM_CONFIG.scene.game.laser, laserKind =>
+    this._lasers = laserKindTo(laserKind =>
       state.scene.game.pool.laser[laserKind].pool.map(
         laserState =>
           new Laser({
+            ...projectileConfig.laser[laserKind],
             laserState,
-            frontWidth: 6,
-            frontHeight: 6,
-            frontNodeTexture: this._textures.laser[laserKind].nodeFront,
-            frontEdgeTexture: this._textures.laser[laserKind].edgeFront,
-            frontContainer: this._frontContainer,
-            backWidth: 12,
-            backHeight: 12,
-            backNodeTexture: this._textures.laser[laserKind].nodeBack,
-            backEdgeTexture: this._textures.laser[laserKind].edgeBack,
-            backContainer: this._backContainer,
+            frontContainer: frontContainer,
+            backContainer: backContainer,
           })
       )
     )
@@ -132,7 +134,7 @@ export class PIXIRenderer extends Renderer {
     node.appendChild(this._application.view)
   }
 
-  // TODO 'sync' should be named more properly
+  // TODO should be named more properly
   _sync() {
     for (const bulletKind of BULLET_KINDS) {
       for (const bullet of this._bullets[bulletKind]) {

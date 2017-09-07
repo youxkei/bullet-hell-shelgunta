@@ -32,25 +32,25 @@ export class Laser {
     laserState,
     frontWidth,
     frontHeight,
-    frontNodeTexture,
-    frontEdgeTexture,
-    frontContainer,
     backWidth,
     backHeight,
-    backNodeTexture,
-    backEdgeTexture,
+    nodeFrontTexture,
+    nodeBackTexture,
+    edgeFrontTexture,
+    edgeBackTexture,
+    frontContainer,
     backContainer,
   }: {
     laserState: LaserState,
     frontWidth: number,
     frontHeight: number,
-    frontNodeTexture: Texture,
-    frontEdgeTexture: Texture,
-    frontContainer: Container,
     backWidth: number,
     backHeight: number,
-    backNodeTexture: Texture,
-    backEdgeTexture: Texture,
+    nodeFrontTexture: Texture,
+    nodeBackTexture: Texture,
+    edgeFrontTexture: Texture,
+    edgeBackTexture: Texture,
+    frontContainer: Container,
     backContainer: Container,
   }) {
     const numPoints = laserState.points.length
@@ -76,7 +76,7 @@ export class Laser {
     }
 
     this._frontMesh = new mesh.Mesh(
-      frontEdgeTexture,
+      edgeFrontTexture,
       this._frontVertices,
       this._uvs,
       this._indices,
@@ -84,17 +84,17 @@ export class Laser {
     )
 
     this._backMesh = new mesh.Mesh(
-      backEdgeTexture,
+      edgeBackTexture,
       this._backVertices,
       this._uvs,
       this._indices,
       mesh.Mesh.DRAW_MODES.TRIANGLE_MESH
     )
 
-    this._headNodeFrontSprite = new Sprite(frontNodeTexture)
-    this._headNodeBackSprite = new Sprite(backNodeTexture)
-    this._tailNodeFrontSprite = new Sprite(frontNodeTexture)
-    this._tailNodeBackSprite = new Sprite(backNodeTexture)
+    this._headNodeFrontSprite = new Sprite(nodeFrontTexture)
+    this._headNodeBackSprite = new Sprite(nodeBackTexture)
+    this._tailNodeFrontSprite = new Sprite(nodeFrontTexture)
+    this._tailNodeBackSprite = new Sprite(nodeBackTexture)
 
     this._headNodeFrontSprite.width = this._tailNodeFrontSprite.width = frontWidth
     this._headNodeFrontSprite.height = this._tailNodeFrontSprite.height = frontHeight
