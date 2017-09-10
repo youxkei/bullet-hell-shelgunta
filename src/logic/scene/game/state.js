@@ -1,5 +1,6 @@
 // @flow
 import type { UserConfig, BulletKindTo, LaserKindTo } from "src/config"
+import type { BulletActionKind } from "src/logic/scene/game/action"
 import { SYSTEM_CONFIG, bulletKindTo, laserKindTo } from "src/config"
 
 export type Point = {
@@ -12,15 +13,19 @@ export type Active = {
   active: boolean,
 }
 
-type BulletWithoutPoint = Active & {
+type Action<K> = {
+  kind: K,
+  count: number,
+}
+
+export type Bullet = Active & Point & {
   angle: number,
   speed: number,
   angularVelocity: number,
+  +action: Action<BulletActionKind>,
 }
 
-export type Bullet = BulletWithoutPoint & Point
-
-export type Laser = BulletWithoutPoint & {
+export type Laser = Bullet & {
   +points: $ReadOnlyArray<Point>,
 }
 
@@ -57,15 +62,25 @@ export function createInitialState(_: UserConfig): State {
           angle: 0,
           speed: 0,
           angularVelocity: 0,
+          action: {
+            kind: "nop",
+            count: 0,
+          },
         })),
         nextIndex: 0,
       })),
       laser: laserKindTo(laserKind => ({
         pool: Array(SYSTEM_CONFIG.scene.game.laser[laserKind].poolSize).fill().map(() => ({
           active: false,
+          x: 0,
+          y: 0,
           angle: 0,
           speed: 0,
           angularVelocity: 0,
+          action: {
+            kind: "nop",
+            count: 0,
+          },
           points: Array(SYSTEM_CONFIG.scene.game.laser.normal.length).fill().map(() => ({ x: 0, y: 0 })),
         })),
         nextIndex: 0,

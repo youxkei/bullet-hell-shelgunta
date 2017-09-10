@@ -61,13 +61,13 @@ export const BULLET_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.bullet)
 export const LASER_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.laser)
 
 // TODO: should be properly named
-export function bulletKindTo<T>(mapper: $Keys<BulletKindTo<void>> => T): BulletKindTo<T> {
+export function bulletKindTo<T>(mapper: $Keys<BulletKindTo<*>> => T): BulletKindTo<T> {
   // $FlowFixMe
   return BULLET_KINDS.reduce((accumulated, key) => ({ ...accumulated, [key]: mapper(key) }), {})
 }
 
 // TODO: should be properly named
-export function laserKindTo<T>(mapper: $Keys<LaserKindTo<void>> => T): LaserKindTo<T> {
+export function laserKindTo<T>(mapper: $Keys<LaserKindTo<*>> => T): LaserKindTo<T> {
   // $FlowFixMe
   return BULLET_KINDS.reduce((accumulated, key) => ({ ...accumulated, [key]: mapper(key) }), {})
 }

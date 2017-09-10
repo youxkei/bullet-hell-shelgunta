@@ -19,7 +19,8 @@ export function logic(state: State): State {
         SYSTEM_CONFIG.screen.height / 4,
         baseAngle + Math.PI * 2 / NUM_BULLET_WAYS * i,
         3,
-        0
+        0,
+        "nop",
       )
     }
   }
@@ -34,16 +35,20 @@ export function logic(state: State): State {
         SYSTEM_CONFIG.screen.height / 4,
         baseAngle + Math.PI * 2 / NUM_LASER_WAYS * i,
         4,
-        0.007
+        0.007,
+        "nop",
       )
+    }
 
+    for (let i = 0; i < NUM_LASER_WAYS; ++i) {
       shootNormalLaser(
         state,
         SYSTEM_CONFIG.screen.width / 2,
         SYSTEM_CONFIG.screen.height / 4,
         baseAngle + Math.PI * 2 / NUM_LASER_WAYS * i,
         4,
-        -0.007
+        -0.007,
+        "nop",
       )
     }
   }

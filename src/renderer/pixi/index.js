@@ -67,10 +67,10 @@ function createProjectileConfig(): { bullet: BulletConfig, laser: LaserConfig } 
     },
     laser: {
       normal: {
-        frontWidth: 6,
-        frontHeight: 6,
-        backWidth: 12,
-        backHeight: 12,
+        frontWidth: 26,
+        frontHeight: 26,
+        backWidth: 32,
+        backHeight: 32,
         nodeFrontTexture: whiteCircleTexture,
         nodeBackTexture: redCircleTexture,
         edgeFrontTexture: whiteRectTexture,
