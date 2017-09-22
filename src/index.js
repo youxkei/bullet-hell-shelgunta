@@ -15,6 +15,7 @@ if (document.body) {
 
 let count = 0
 let previousTime = performance.now()
+
 function main() {
   state = logic(state)
   renderer.render()

@@ -1,14 +1,14 @@
 // @flow
 import { Application, Texture, Graphics, Container, ticker } from "pixi.js"
 
-import type { UserConfig, BulletKindTo, LaserKindTo } from "src/config"
+import type { UserConfig, BulletKindObject, LaserKindObject } from "src/config"
 import type { State } from "src/state"
-import { SYSTEM_CONFIG, BULLET_KINDS, LASER_KINDS, bulletKindTo, laserKindTo } from "src/config"
+import { SYSTEM_CONFIG, BULLET_KINDS, LASER_KINDS, createBulletKindObject, createLaserKindObject } from "src/config"
 import { Renderer } from "src/renderer/"
 import { Bullet } from "src/renderer/pixi/bullet"
 import { Laser } from "src/renderer/pixi/laser"
 
-type BulletConfig = BulletKindTo<{
+type BulletConfig = BulletKindObject<{
   frontWidth: number,
   frontHeight: number,
   backWidth: number,
@@ -17,7 +17,7 @@ type BulletConfig = BulletKindTo<{
   backTexture: Texture,
 }>
 
-type LaserConfig = LaserKindTo<{
+type LaserConfig = LaserKindObject<{
   frontWidth: number,
   frontHeight: number,
   backWidth: number,
@@ -83,8 +83,8 @@ function createProjectileConfig(): { bullet: BulletConfig, laser: LaserConfig } 
 export class PIXIRenderer extends Renderer {
   _application: Application
 
-  _bullets: BulletKindTo<$ReadOnlyArray<Bullet>>
-  _lasers: LaserKindTo<$ReadOnlyArray<Laser>>
+  _bullets: BulletKindObject<$ReadOnlyArray<Bullet>>
+  _lasers: LaserKindObject<$ReadOnlyArray<Laser>>
 
   constructor(state: State, userConfig: UserConfig) {
     super(state, userConfig)
@@ -105,7 +105,7 @@ export class PIXIRenderer extends Renderer {
     this._application.stage.addChild(backContainer)
     this._application.stage.addChild(frontContainer)
 
-    this._bullets = bulletKindTo(bulletKind =>
+    this._bullets = createBulletKindObject(bulletKind =>
       state.scene.game.pool.bullet[bulletKind].pool.map(
         bulletState =>
           new Bullet({
@@ -117,7 +117,7 @@ export class PIXIRenderer extends Renderer {
       )
     )
 
-    this._lasers = laserKindTo(laserKind =>
+    this._lasers = createLaserKindObject(laserKind =>
       state.scene.game.pool.laser[laserKind].pool.map(
         laserState =>
           new Laser({

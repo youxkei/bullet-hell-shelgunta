@@ -12,15 +12,16 @@ type LaserConfig = {
   length: number,
 }
 
-// TODO: should be properly named
-export type BulletKindTo<T> = {
+export type BulletKindObject<T> = {
   +normal: T,
 }
 
-// TODO: should be properly named
-export type LaserKindTo<T> = {
+export type LaserKindObject<T> = {
   +normal: T,
 }
+
+export type BulletKind = $Keys<BulletKindObject<*>>
+export type LaserKind = $Keys<LaserKindObject<*>>
 
 export const SYSTEM_CONFIG = {
   screen: {
@@ -40,14 +41,14 @@ export const SYSTEM_CONFIG = {
           radius: 16,
           poolSize: 2048,
         },
-      }: BulletKindTo<BulletConfig>),
+      }: BulletKindObject<BulletConfig>),
       laser: ({
         normal: {
           radius: 16,
           poolSize: 128,
           length: 96,
         },
-      }: LaserKindTo<LaserConfig>),
+      }: LaserKindObject<LaserConfig>),
     },
   },
 }
@@ -60,14 +61,12 @@ function getObjectKeys<K, V, O: { +[key: K]: V }>(object: O): K {
 export const BULLET_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.bullet)
 export const LASER_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.laser)
 
-// TODO: should be properly named
-export function bulletKindTo<T>(mapper: $Keys<BulletKindTo<*>> => T): BulletKindTo<T> {
+export function createBulletKindObject<T>(mapper: BulletKind => T): BulletKindObject<T> {
   // $FlowFixMe
   return BULLET_KINDS.reduce((accumulated, key) => ({ ...accumulated, [key]: mapper(key) }), {})
 }
 
-// TODO: should be properly named
-export function laserKindTo<T>(mapper: $Keys<LaserKindTo<*>> => T): LaserKindTo<T> {
+export function createLaserKindObject<T>(mapper: LaserKind => T): LaserKindObject<T> {
   // $FlowFixMe
   return BULLET_KINDS.reduce((accumulated, key) => ({ ...accumulated, [key]: mapper(key) }), {})
 }

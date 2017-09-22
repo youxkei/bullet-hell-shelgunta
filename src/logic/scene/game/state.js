@@ -1,7 +1,7 @@
 // @flow
-import type { UserConfig, BulletKindTo, LaserKindTo } from "src/config"
+import type { UserConfig, BulletKindObject, LaserKindObject } from "src/config"
 import type { BulletActionKind } from "src/logic/scene/game/action"
-import { SYSTEM_CONFIG, bulletKindTo, laserKindTo } from "src/config"
+import { SYSTEM_CONFIG, createBulletKindObject, createLaserKindObject } from "src/config"
 
 export type Point = {
   x: number,
@@ -42,8 +42,8 @@ type Pool<T> = {
 export type State = {
   +stage: Stage,
   +pool: {
-    +bullet: BulletKindTo<Pool<Bullet>>,
-    +laser: LaserKindTo<Pool<Laser>>,
+    +bullet: BulletKindObject<Pool<Bullet>>,
+    +laser: LaserKindObject<Pool<Laser>>,
   },
 }
 
@@ -54,7 +54,7 @@ export function createInitialState(_: UserConfig): State {
       frameCount: 0,
     },
     pool: {
-      bullet: bulletKindTo(bulletKind => ({
+      bullet: createBulletKindObject(bulletKind => ({
         pool: Array(SYSTEM_CONFIG.scene.game.bullet[bulletKind].poolSize).fill().map(() => ({
           active: false,
           x: 0,
@@ -69,7 +69,7 @@ export function createInitialState(_: UserConfig): State {
         })),
         nextIndex: 0,
       })),
-      laser: laserKindTo(laserKind => ({
+      laser: createLaserKindObject(laserKind => ({
         pool: Array(SYSTEM_CONFIG.scene.game.laser[laserKind].poolSize).fill().map(() => ({
           active: false,
           x: 0,
