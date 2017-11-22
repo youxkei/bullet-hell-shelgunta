@@ -1,28 +1,6 @@
 // @flow
 export type UserConfig = {}
 
-type BulletConfig = {
-  radius: number,
-  poolSize: number,
-}
-
-type LaserConfig = {
-  radius: number,
-  poolSize: number,
-  length: number,
-}
-
-export type BulletKindObject<T> = {
-  +normal: T,
-}
-
-export type LaserKindObject<T> = {
-  +normal: T,
-}
-
-export type BulletKind = $Keys<BulletKindObject<*>>
-export type LaserKind = $Keys<LaserKindObject<*>>
-
 export const SYSTEM_CONFIG = {
   screen: {
     width: 960,
@@ -36,30 +14,35 @@ export const SYSTEM_CONFIG = {
   },
   scene: {
     game: {
-      bullet: ({
+      bullet: {
         normal: {
           radius: 16,
           poolSize: 2048,
         },
-      }: BulletKindObject<BulletConfig>),
-      laser: ({
+        large: {
+          radius: 32,
+          poolSize: 512,
+        },
+      },
+      laser: {
         normal: {
           radius: 16,
           poolSize: 128,
           length: 96,
         },
-      }: LaserKindObject<LaserConfig>),
+      },
     },
   },
 }
 
-function getObjectKeys<K, V, O: { +[key: K]: V }>(object: O): K {
-  // $FlowFixMe
-  return Object.keys(object)
-}
+export type BulletKind = $Keys<typeof SYSTEM_CONFIG.scene.game.bullet>
+export type LaserKind = $Keys<typeof SYSTEM_CONFIG.scene.game.laser>
 
-export const BULLET_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.bullet)
-export const LASER_KINDS = getObjectKeys(SYSTEM_CONFIG.scene.game.laser)
+export const BULLET_KINDS = Object.keys(SYSTEM_CONFIG.scene.game.bullet)
+export const LASER_KINDS = Object.keys(SYSTEM_CONFIG.scene.game.laser)
+
+export type BulletKindObject<T> = $ObjMap<typeof SYSTEM_CONFIG.scene.game.bullet, <U>(U) => T>
+export type LaserKindObject<T> = $ObjMap<typeof SYSTEM_CONFIG.scene.game.laser, <U>(U) => T>
 
 export function createBulletKindObject<T>(mapper: BulletKind => T): BulletKindObject<T> {
   // $FlowFixMe

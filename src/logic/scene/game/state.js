@@ -22,11 +22,11 @@ export type Bullet = Active & Point & {
   angle: number,
   speed: number,
   angularVelocity: number,
-  +action: Action<BulletActionKind>,
+  action: Action<BulletActionKind>,
 }
 
 export type Laser = Bullet & {
-  +points: $ReadOnlyArray<Point>,
+  points: $ReadOnlyArray<Point>,
 }
 
 export type Stage = {
@@ -35,15 +35,15 @@ export type Stage = {
 }
 
 type Pool<T> = {
-  +pool: $ReadOnlyArray<T>,
+  pool: $ReadOnlyArray<T>,
   nextIndex: number,
 }
 
 export type State = {
-  +stage: Stage,
-  +pool: {
-    +bullet: BulletKindObject<Pool<Bullet>>,
-    +laser: LaserKindObject<Pool<Laser>>,
+  stage: Stage,
+  pool: {
+    bullet: BulletKindObject<Pool<Bullet>>,
+    laser: LaserKindObject<Pool<Laser>>,
   },
 }
 
