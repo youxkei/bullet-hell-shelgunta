@@ -1,0 +1,12 @@
+{
+  "name": "bullet-hell-shelgunta",
+  "sources": {
+    "dir": "src",
+    "subdirs": true,
+  },
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true,
+  },
+  "refmt": 3,
+}

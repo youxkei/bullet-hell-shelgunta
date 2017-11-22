@@ -1,0 +1,12 @@
+{
+  "name": "bullet-hell-shelgunta",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:youxkei/bullet-hell-shelgunta.git",
+  "author": "Mima, Hisayuki <youxkei@gmail.com>",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "bs-platform": "^2.1.0",
+    "pixi.js": "^4.6.1"
+  }
+}
