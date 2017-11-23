@@ -1,1 +1,1 @@
-type t = unit;
+let initial = "TODO: create an initial state";
