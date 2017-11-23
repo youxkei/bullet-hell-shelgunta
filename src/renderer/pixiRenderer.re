@@ -1,31 +1,33 @@
+open Webapi.Dom;
+
 module Ticker {
   type t;
 
   [@bs.module "pixi.js"] [@bs.scope "ticker"] [@bs.val] external shared : t = "";
   [@bs.set] external setAutoStart: (t, Js.boolean) => unit = "autoStart";
-  [@bs.send] external stop: t => unit = "stop";
+  [@bs.send.pipe: t] external stop: unit => unit = "";
 };
 
 module Application {
   type t;
 
   [@bs.module "pixi.js"] [@bs.new] external make: (int, int, {. "autoStart": Js.boolean, "antialias": Js.boolean }) => t = "Application";
-  [@bs.get] external getTicker: t => Ticker.t = "ticker";
-  [@bs.get] external getView: t => Node.t = "view";
-  [@bs.send] external render: t => unit => unit = "";
+  [@bs.get] external ticker: t => Ticker.t = "";
+  [@bs.get] external view: t => Node.t = "";
+  [@bs.send.pipe: t] external render: unit => unit = "";
 };
 
 
 let make = (state, config, preference) => {
   Ticker.setAutoStart(Ticker.shared, Js.false_);
-  Ticker.stop(Ticker.shared);
+  Ticker.shared |> Ticker.stop();
 
   let application = Application.make(config##screen##width, config##screen##height, { "autoStart": Js.false_, "antialias": Js.true_ });
-  Ticker.stop(Application.getTicker(application));
+  application |> Application.ticker |> Ticker.stop();
 
   { "state": state, "config": config, "preference": preference, "application": application };
 };
 
 let addRenderedCanvasToNode = (this, node) => {
-  Node.appendChild(node, Application.getView(this##application));
+  node |> Node.appendChild(this##application |> Application.view);
 };

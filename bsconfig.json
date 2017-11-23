@@ -4,9 +4,9 @@
     "dir": "src",
     "subdirs": true,
   },
+  "bs-dependencies": ["bs-webapi"],
   "package-specs": {
-    "module": "commonjs",
-    "in-source": true,
+    "module": "es6",
   },
   "refmt": 3,
 }
